@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('notes', function (Blueprint $table) {
-        $table->id();
-        $table->string('title');
-        $table->text('description')->nullable();
-        $table->string('asset/notes/'); // PDF ka path
-        $table->timestamps();
-    });
+        Schema::create('notes', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->text('content')->nullable(); // Correct column name
+            $table->string('file_path')->nullable(); // For storing file paths
+            $table->timestamps();
+        });
     }
 
     /**

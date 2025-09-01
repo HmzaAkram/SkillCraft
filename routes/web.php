@@ -42,6 +42,10 @@ Route::get('/pricing', function () {
     return view('pricing');
 })->name('pricing');
 
+Route::get('/notes',function(){
+    return view('notes.index');
+})->name('notes');
+Route::get('/notes/{note}', [NoteController::class, 'show'])->name('notes.show');
 // AI recommendation
 Route::post('/ai/recommend', [AIController::class, 'recommend'])->name('ai.recommend');
 
@@ -53,8 +57,11 @@ Route::get('/progress', [UserController::class, 'trackProgress'])->name('user.pr
 
 // Home + Chatbot
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot');
-Route::post('/chatbot/message', [ChatbotController::class, 'message'])->name('chatbot.message');
+// Chatbot (only logged-in users)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot');
+    Route::post('/chatbot/message', [ChatbotController::class, 'message'])->name('chatbot.message');
+});
 
 // Notes (User side)
 Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');

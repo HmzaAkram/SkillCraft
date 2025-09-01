@@ -4,21 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class ChatbotController extends Controller
 {
-    public function index()
-    {
-        $history = session('chat_history', []);
-        if (empty($history)) {
-            $history[] = [
-                'role' => 'assistant',
-                'content' => "Hello! I'm SkillCrafter AI. How can I assist you with your skill development today?"
-            ];
-            session(['chat_history' => $history]);
-        }
-        return view('chatbot', ['history' => $history]);
+  
+public function index()
+{
+    $history = session('chat_history', []);
+    
+    if (empty($history)) {
+        $history[] = [
+            'role' => 'assistant',
+            'content' => "Hello! I'm SkillCrafter AI. How can I assist you with your skill development today?"
+        ];
+        session(['chat_history' => $history]);
     }
+
+    // ✅ User name check
+    $userName = Auth::check() ? Auth::user()->name : 'Guest';
+
+    return view('chatbot', [
+        'history' => $history,
+        'userName' => $userName
+    ]);
+}
 
     public function message(Request $request)
     {

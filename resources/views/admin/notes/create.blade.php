@@ -21,7 +21,7 @@
         <input type="file" name="file" class="form-control">
         @error('file') <div class="text-danger small">{{ $message }}</div> @enderror
       </div>
-      <button class="btn btn-primary">Create</button>
+      <button type="submit" class="btn btn-primary">Create</button>
       <a href="{{ route('admin.notes.index') }}" class="btn btn-outline-secondary">Cancel</a>
     </form>
   </div>

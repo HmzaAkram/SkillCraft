@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
-      protected $fillable = ['title', 'description', 'asset/notes/'];
+      // In Note.php model
+protected $fillable = [
+    'title',
+    'content', 
+    'file_path'
+];
 }
