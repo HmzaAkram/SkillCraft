@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,9 +39,7 @@ Route::get('/pricing', function () {
     return view('pricing');
 })->name('pricing');
 
-Route::get('/notes', function () {
-    return view('notes');
-})->name('notes');
+
 
 
 // AI recommendation
@@ -56,6 +55,17 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot');
 Route::post('/chatbot/message', [ChatbotController::class, 'message'])->name('chatbot.message');
+
+
+
+
+Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
+
+// Admin (only if authenticated)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
+    Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+});
 
 
 Auth::routes();

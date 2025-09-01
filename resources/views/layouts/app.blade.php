@@ -425,7 +425,8 @@
 </li>
                 <li><a href="{{ route('features') }}">Features</a>
 </li>
-           <li><a href="{{ route('notes') }}">Notes</a>
+           <li><a href="{{ route('notes.index') }}">Notes</a>
+
 </li>
  
                 <a href="{{ route('how-it-works') }}">How It Works</a>
