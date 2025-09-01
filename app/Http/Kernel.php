@@ -44,10 +44,11 @@ class Kernel extends HttpKernel
     /**
      * Route middleware aliases.
      */
-protected $routeMiddleware = [
+protected $middlewareAliases = [
     'auth' => \App\Http\Middleware\Authenticate::class,
-    'admin' => \App\Http\Middleware\AdminMiddleware::class, // <-- yeh line zaroori hai
+    'admin' => \App\Http\Middleware\AdminMiddleware::class,
 ];
+
 
 
 }

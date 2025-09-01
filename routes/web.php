@@ -70,6 +70,12 @@ Auth::routes();
 // =====================
 // ✅ ADMIN ROUTES
 // =====================
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', function () {
+        return "Welcome Admin Panel";
+    });
+});
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Dashboard
