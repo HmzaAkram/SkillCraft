@@ -421,10 +421,13 @@
         <nav class="container">
             <a href="/" class="logo">SkillCrafter</a>
             <ul class="nav-links">
+                           <li><a href="{{ route('about') }}">About</a>
+</li>
                 <li><a href="{{ route('features') }}">Features</a>
 </li>
-            <li><a href="{{ route('about') }}">About</a>
+           <li><a href="{{ route('notes') }}">Notes</a>
 </li>
+ 
                 <a href="{{ route('how-it-works') }}">How It Works</a>
 
                 <li><a href="{{ route('pricing') }}">Pricing</a>
