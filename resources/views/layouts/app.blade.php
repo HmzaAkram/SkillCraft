@@ -573,32 +573,60 @@
             });
         });
     </script>
-    <div x-data="{ open: false }">
+   <div x-data="{ open: false }">
     <!-- Chatbot Toggle Button -->
     <button @click="open = !open"
-        class="btn btn-danger rounded-circle position-fixed"
-        style="bottom: 30px; right: 30px; z-index: 1050; width: 60px; height: 60px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        <i class="bi bi-chat-dots-fill fs-4 text-white"></i>
+        class="rounded-circle position-fixed d-flex align-items-center justify-content-center"
+        style="bottom: 30px; right: 30px; z-index: 1050; width: 60px; height: 60px;
+               background: linear-gradient(135deg, #e11d48, #f59e0b);
+               box-shadow: 0 6px 16px rgba(225,29,72,0.4); border: none;">
+        <i class="bi bi-robot fs-3 text-white"></i>
     </button>
 
     <!-- Chatbot Panel -->
     <div x-show="open"
          x-transition
-         class="position-fixed bg-white border rounded shadow p-3"
-         style="bottom: 100px; right: 30px; width: 300px; z-index: 1051;">
-        <h5 class="text-primary mb-2">Chatbot</h5>
-        <form method="POST" action="{{ route('chatbot.message') }}">
+         class="position-fixed bg-white border-0 rounded-4 shadow-lg"
+         style="bottom: 100px; right: 30px; width: 340px; z-index: 1051; overflow: hidden;">
+         
+        <!-- Chatbot Header -->
+        <div class="d-flex align-items-center justify-content-between px-3 py-2"
+             style="background: linear-gradient(135deg, #e11d48, #f59e0b); color: white;">
+            <h6 class="mb-0 fw-bold">🤖 SkillCrafter AI</h6>
+            <button @click="open = false" class="btn btn-sm btn-light rounded-circle">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <!-- Chatbot Messages -->
+        <div class="p-3" style="max-height: 300px; overflow-y: auto;">
+            @if(session('reply'))
+                <div class="alert alert-secondary p-2 mb-2">
+                    <strong>You:</strong> {{ old('message') }}
+                </div>
+                <div class="alert alert-success p-2">
+                    <strong>AI:</strong> {{ session('reply') }}
+                </div>
+            @else
+                <p class="text-muted small">👋 Ask me anything about skills, learning paths, or AI guidance!</p>
+            @endif
+        </div>
+
+        <!-- Chatbot Input -->
+        <form method="POST" action="{{ route('chatbot.message') }}" class="d-flex p-2 border-top">
             @csrf
-            <input type="text" name="message" class="form-control mb-2" placeholder="Ask something..." required>
-            <button type="submit" class="btn btn-sm btn-primary w-100">Send</button>
+            <input type="text" name="message" class="form-control me-2 rounded-pill"
+                   placeholder="Type a message..." required>
+            <button type="submit"
+                    class="btn rounded-pill text-white px-3"
+                    style="background: linear-gradient(135deg, #e11d48, #f59e0b);">
+                <i class="bi bi-send-fill"></i>
+            </button>
         </form>
-        @if(session('reply'))
-            <div class="mt-2 alert alert-success p-2">
-                <strong>AI:</strong> {{ session('reply') }}
-            </div>
-        @endif
     </div>
 </div>
+
+
 
 </body>
 </html>

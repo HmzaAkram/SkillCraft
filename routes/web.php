@@ -38,6 +38,11 @@ Route::get('/pricing', function () {
     return view('pricing');
 })->name('pricing');
 
+Route::get('/notes', function () {
+    return view('notes');
+})->name('notes');
+
+
 // AI recommendation
 Route::post('/ai/recommend', [AIController::class, 'recommend'])->name('ai.recommend');
 
@@ -47,7 +52,7 @@ Route::get('/roadmap/{id}', [RoadmapController::class, 'show'])->name('roadmap.s
 // User Progress
 Route::get('/progress', [UserController::class, 'trackProgress'])->name('user.progress');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot');
 Route::post('/chatbot/message', [ChatbotController::class, 'message'])->name('chatbot.message');
