@@ -436,15 +436,19 @@
     
             </ul>
  <div class="auth-buttons">
-    @auth
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="cta-button">Logout</button>
-        </form>
-    @else
-        <a href="{{ route('register') }}" class="cta-button">Register</a>
-        <a href="{{ route('login') }}" class="cta-button">Login</a>
-    @endauth
+   @auth
+    @if(auth()->user()->role === 'admin')
+        <a href="{{ route('admin.dashboard') }}" class="cta-button me-2">Admin Panel</a>
+    @endif
+    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+        @csrf
+        <button type="submit" class="cta-button">Logout</button>
+    </form>
+@else
+    <a href="{{ route('register') }}" class="cta-button">Register</a>
+    <a href="{{ route('login') }}" class="cta-button">Login</a>
+@endauth
+
 </div>
 
 
