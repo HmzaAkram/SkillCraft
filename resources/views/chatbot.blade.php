@@ -16,6 +16,8 @@
         padding: 30px;
         overflow-y: auto;
         background: #fff;
+        display: flex;
+        flex-direction: column;
     }
 
     .chat-right {
@@ -32,6 +34,13 @@
         border-radius: 12px;
         margin-bottom: 10px;
         max-width: 70%;
+        align-self: flex-start;
+    }
+
+    .user-bubble {
+        align-self: flex-end;
+        background: #d1e7dd;
+        color: #333;
     }
 
     .chat-input-container {
@@ -86,15 +95,14 @@
     <div class="chat-container">
         {{-- Left: Chat --}}
         <div class="chat-left" id="chatbox">
-            <div class="chat-bubble">
-                Hello! I'm SkillCrafter AI. How can I assist you with your skill development today?
-            </div>
-
-            @if ($reply)
-                <div class="chat-bubble">
-                    <strong>AI:</strong> {{ $reply }}
+            @php
+                $userName = session('user_name', 'Guest');
+            @endphp
+            @foreach ($history as $msg)
+                <div class="chat-bubble {{ $msg['role'] == 'user' ? 'user-bubble' : '' }}">
+                    <strong>{{ $msg['role'] == 'user' ? $userName . ':' : 'SkillCrafter AI:' }}</strong> {{ $msg['content'] }}
                 </div>
-            @endif
+            @endforeach
         </div>
 
         {{-- Right: Prompts --}}
@@ -125,6 +133,9 @@
     function fillPrompt(text) {
         document.getElementById('chat-input').value = text;
     }
+
+    // Auto-scroll to bottom
+    const chatbox = document.getElementById('chatbox');
+    chatbox.scrollTop = chatbox.scrollHeight;
 </script>
 @endsection
-
