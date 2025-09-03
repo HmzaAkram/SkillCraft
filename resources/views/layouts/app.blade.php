@@ -581,6 +581,7 @@
             });
         });
     </script>
+   @if (Route::currentRouteName() != 'chatbot')
    <div x-data="{ open: false }">
     <!-- Chatbot Toggle Button -->
     <button @click="open = !open"
@@ -633,6 +634,7 @@
         </form>
     </div>
 </div>
+@endif
 
 
 

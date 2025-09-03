@@ -105,14 +105,19 @@
             @endforeach
         </div>
 
-        {{-- Right: Prompts --}}
+        {{-- Right: User Chat History --}}
         <div class="chat-right">
-            <h5 class="mb-3 fw-bold">Quick Prompts</h5>
-            @foreach(['Roadmap Advice', 'Resume Tips', 'Skill Gap Help', 'Motivation Strategies'] as $prompt)
-                <div class="quick-prompt-btn" onclick="fillPrompt('{{ $prompt }}')">
-                    {{ $prompt }}
-                </div>
+            <h5 class="mb-3 fw-bold">Chat History</h5>
+            @foreach ($history as $msg)
+                @if ($msg['role'] == 'user')
+                    <div class="quick-prompt-btn" onclick="fillPrompt('{{ $msg['content'] }}')">
+                        {{ Str::limit($msg['content'], 30) }}
+                    </div>
+                @endif
             @endforeach
+            @if (count(array_filter($history, fn($msg) => $msg['role'] == 'user')) == 0)
+                <p class="text-muted">No chat history yet.</p>
+            @endif
         </div>
     </div>
 

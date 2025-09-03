@@ -20,11 +20,17 @@
         <h3>{{ $note->title }}</h3>
         <p class="mb-2" style="white-space:pre-line">{{ Str::limit($note->content, 180) }}</p>
         <div class="d-flex gap-2 justify-content-center">
-          <a href="{{ route('notes.show', $note) }}" class="btn-secondary">Read</a>
-          @if($note->file_path)
-            <a href="{{ asset('storage/'.$note->file_path) }}" class="cta-button" download>Download</a>
-          @endif
-        </div>
+    @if($note->file_path && Str::endsWith($note->file_path, '.pdf'))
+        <a href="{{ asset('storage/'.$note->file_path) }}" class="btn-secondary" target="_blank">Read</a>
+    @else
+        <a href="{{ route('notes.show', $note) }}" class="btn-secondary">Read</a>
+    @endif
+
+    @if($note->file_path)
+        <a href="{{ asset('storage/'.$note->file_path) }}" class="cta-button" download>Download</a>
+    @endif
+</div>
+
       </div>
       @empty
       <p class="text-muted">No notes yet.</p>
