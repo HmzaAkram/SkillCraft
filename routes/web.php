@@ -4,16 +4,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AIController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\RoadmapController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ChatbotController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NoteController;
-use App\Http\Controllers\Admin\DashboardController;
-
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\NoteController as AdminNoteController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\CertificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,10 @@ use App\Http\Controllers\Admin\NoteController as AdminNoteController;
 |--------------------------------------------------------------------------
 */
 
-// Home / Dashboard
+// Public Routes
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/about', function () {
     return view('about');
@@ -42,62 +43,53 @@ Route::get('/pricing', function () {
     return view('pricing');
 })->name('pricing');
 
-Route::get('/notes',function(){
-    return view('notes.index');
-})->name('notes');
 Route::get('/notes/{note}', [NoteController::class, 'show'])->name('notes.show');
+
 // AI recommendation
 Route::post('/ai/recommend', [AIController::class, 'recommend'])->name('ai.recommend');
 
 // Skill Roadmap
 Route::get('/roadmap/{id}', [RoadmapController::class, 'show'])->name('roadmap.show');
 
-// User Progress
-Route::get('/progress', [UserController::class, 'trackProgress'])->name('user.progress');
+// Auth Routes
+Auth::routes();
 
-// Home + Chatbot
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-// Chatbot (only logged-in users)
+// User Panel Routes (Authenticated)
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
+    Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
+    Route::post('/courses/{id}/enroll', [CourseController::class, 'enroll'])->name('courses.enroll');
+    Route::post('/courses/{courseId}/lessons/{lessonId}/complete', [CourseController::class, 'completeLesson'])->name('courses.lesson.complete');
+    Route::get('/progress', [ProgressController::class, 'index'])->name('progress');
+    Route::get('/certifications', [CertificationController::class, 'index'])->name('certifications.index');
+    Route::get('/certifications/{id}/download', [CertificationController::class, 'download'])->name('certifications.download');
     Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot');
     Route::post('/chatbot/message', [ChatbotController::class, 'message'])->name('chatbot.message');
-});
-
-// Notes (User side)
-Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
-
-Route::middleware(['auth'])->group(function () {
+    Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
     Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
     Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
 });
 
-// Auth Routes
-Auth::routes();
-
-// =====================
-// ✅ ADMIN ROUTES
-// =====================
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', function () {
-        return "Welcome Admin Panel";
-    });
-});
-
+// Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-
-    // Dashboard
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-
-    // Users
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
     Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('admin.users.updateRole');
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
-
-    // Notes (Admin CRUD)
     Route::get('/notes', [AdminNoteController::class, 'index'])->name('admin.notes.index');
     Route::get('/notes/create', [AdminNoteController::class, 'create'])->name('admin.notes.create');
     Route::post('/notes', [AdminNoteController::class, 'store'])->name('admin.notes.store');
     Route::get('/notes/{note}/edit', [AdminNoteController::class, 'edit'])->name('admin.notes.edit');
     Route::put('/notes/{note}', [AdminNoteController::class, 'update'])->name('admin.notes.update');
     Route::delete('/notes/{note}', [AdminNoteController::class, 'destroy'])->name('admin.notes.destroy');
+    // New Admin Course Routes
+    Route::get('/courses', [CourseController::class, 'adminIndex'])->name('admin.courses.index');
+    Route::get('/courses/create', [CourseController::class, 'create'])->name('admin.courses.create');
+    Route::post('/courses', [CourseController::class, 'store'])->name('admin.courses.store');
+    Route::get('/courses/{id}/edit', [CourseController::class, 'edit'])->name('admin.courses.edit');
+    Route::put('/courses/{id}', [CourseController::class, 'update'])->name('admin.courses.update');
+    Route::delete('/courses/{id}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
 });

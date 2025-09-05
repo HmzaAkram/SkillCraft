@@ -1,5 +1,7 @@
 <html lang="en">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script src="//unpkg.com/alpinejs" defer></script>
 
@@ -7,6 +9,8 @@
     <script src="//unpkg.com/alpinejs" defer></script>       {{-- Required for Alpine --}}
     <meta charset="UTF-8">
     <!-- Bootstrap 5 CSS (include this in the head section) -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
@@ -413,52 +417,75 @@
             opacity: 1;
             transform: translateY(0);
         }
-    </style>
+           </style>
+           <!-- Add in your main layout file (before closing </head>) -->
+<script src="//unpkg.com/alpinejs" defer></script>
+
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <nav class="container">
-            <a href="/" class="logo">SkillCrafter</a>
-            <ul class="nav-links">
-                           <li><a href="{{ route('about') }}">About</a>
-</li>
-                <li><a href="{{ route('features') }}">Features</a>
-</li>
-           <li><a href="{{ route('notes.index') }}">Notes</a>
+<!-- Header -->
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold text-danger" href="/">
+                SkillCrafter
+            </a>
 
-</li>
- 
-                <a href="{{ route('how-it-works') }}">How It Works</a>
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <li><a href="{{ route('pricing') }}">Pricing</a>
-</li>
-    
-            </ul>
- <div class="auth-buttons">
-   @auth
-    @if(auth()->user()->role === 'admin')
-        <a href="{{ route('admin.dashboard') }}" class="cta-button me-2">Admin Panel</a>
-    @endif
-    <form method="POST" action="{{ route('logout') }}" class="d-inline">
-        @csrf
-        <button type="submit" class="cta-button">Logout</button>
-    </form>
-@else
-    <a href="{{ route('register') }}" class="cta-button">Register</a>
-    <a href="{{ route('login') }}" class="cta-button">Login</a>
-@endauth
+            <!-- Nav Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('notes.index') }}">Notes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('how-it-works') }}">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('pricing') }}">Pricing</a></li>
+                </ul>
 
-</div>
+                <!-- Auth Buttons -->
+                <div class="d-flex align-items-center gap-3">
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-danger">Admin Panel</a>
+                        @endif
 
+                        <!-- Profile Icon Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width:40px; height:40px;" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle fs-5"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow">
+                                <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('courses.index') }}">Courses</a></li>
+                                <li><a class="dropdown-item" href="{{ route('progress') }}">Progress</a></li>
+                                <li><a class="dropdown-item" href="{{ route('certifications.index') }}">Certifications</a></li>
+                            </ul>
+                        </div>
 
-            <!-- <div class="mobile-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div> -->
-        </nav>
-    </header>
+                        <!-- Logout Button -->
+                        <form method="POST" action="{{ route('logout') }}" class="m-0">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('register') }}" class="btn btn-sm btn-danger">Register</a>
+                        <a href="{{ route('login') }}" class="btn btn-sm btn-outline-danger">Login</a>
+                    @endauth
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
 
     
     <main>

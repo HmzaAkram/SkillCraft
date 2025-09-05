@@ -49,5 +49,21 @@ class User extends Authenticatable
 {
     return $this->role === 'admin';
 }
+public function courses()
+{
+    return $this->belongsToMany(Course::class);
+}
 
+public function progress()
+{
+    return $this->hasMany(Progress::class);
+}
+
+public function certifications()
+{
+    return $this->hasMany(Certification::class);
+}
+
+// Assuming notes relation exists; if not, add:
+// public function notes() { return $this->hasMany(Note::class); }
 }
