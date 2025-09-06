@@ -4,27 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Progress;
 
 class ProgressController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
-        $courses = $user->courses;
-        $progressData = [];
 
-        foreach ($courses as $course) {
-            $completed = $user->progress->where('course_id', $course->id)->where('status', 'completed')->count();
-            $totalLessons = $course->lessons->count();
-            $percentage = $totalLessons > 0 ? ($completed / $totalLessons * 100) : 0;
-            $progressData[] = [
-                'course' => $course,
-                'percentage' => $percentage,
-                'completed' => $completed,
-                'pending' => $totalLessons - $completed,
-            ];
-        }
+        // User ke saare progress records fetch karo
+        $progress = Progress::with('skill') // agar relation hai
+            ->where('user_id', $user->id)
+            ->get();
 
-        return view('progress', compact('progressData'));
+        return view('progress', compact('progress'));
     }
 }

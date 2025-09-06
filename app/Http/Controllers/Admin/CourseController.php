@@ -37,7 +37,11 @@ class CourseController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'video' => 'nullable|file|mimes:mp4,mov,avi|max:102400',
         ]);
+        if ($request->hasFile('video')) {
+        $validated['video'] = $request->file('video')->store('videos', 'public'); // Store in public/storage/videos
+    }
 
         $course = Course::create($validated);
         event(new CourseCreated($course)); // Trigger real-time event
@@ -51,18 +55,28 @@ class CourseController extends Controller
         return view('admin.courses.edit', compact('course'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-        ]);
+   public function update(Request $request, $id)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'video' => 'nullable|file|mimes:mp4,mov,avi|max:102400',
+    ]);
 
-        $course = Course::findOrFail($id);
-        $course->update($validated);
+    $course = Course::findOrFail($id);
 
-        return redirect()->route('admin.courses.index')->with('success', 'Course updated successfully.');
+    if ($request->hasFile('video')) {
+        // Delete old video if exists
+        if ($course->video) {
+            Storage::disk('public')->delete($course->video);
+        }
+        $validated['video'] = $request->file('video')->store('videos', 'public');
     }
+
+    $course->update($validated);
+
+    return redirect()->route('admin.courses.index')->with('success', 'Course updated successfully.');
+}
 
     public function destroy($id)
     {
@@ -137,4 +151,5 @@ class CourseController extends Controller
 
         return redirect()->route('courses.show', $courseId)->with('success', 'Lesson completed.');
     }
+    
 }

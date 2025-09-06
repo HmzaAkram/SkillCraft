@@ -25,4 +25,8 @@ class Progress extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+    public function skill()
+{
+    return $this->belongsTo(Skill::class);
+}
 }

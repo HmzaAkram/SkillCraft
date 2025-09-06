@@ -9,6 +9,8 @@ class Course extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'description', 'video']; // Include 'video' if added
+
     public function users()
     {
         return $this->belongsToMany(User::class);

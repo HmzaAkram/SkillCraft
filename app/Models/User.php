@@ -2,31 +2,33 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'is_admin', // From your migrations (e.g., add_is_admin_to_users_table.php)
+        // Add other fields if present, e.g., 'profile_photo', 'role'
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -38,32 +40,39 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_admin' => 'boolean', // If you have an is_admin flag
+    ];
+
+    // Relationships
+    public function courses()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsToMany(Course::class, 'course_user'); // Pivot table from your migrations (course_user.php)
     }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
+    }
+
+    public function certifications()
+    {
+        return $this->hasMany(Certification::class);
+    }
+
+    // Add any custom methods, e.g., for admin check
     public function isAdmin()
-{
-    return $this->role === 'admin';
-}
-public function courses()
-{
-    return $this->belongsToMany(Course::class);
-}
+    {
+        return $this->is_admin;
+    }
 
-public function progress()
-{
-    return $this->hasMany(Progress::class);
-}
 
-public function certifications()
-{
-    return $this->hasMany(Certification::class);
-}
 
-// Assuming notes relation exists; if not, add:
-// public function notes() { return $this->hasMany(Note::class); }
 }

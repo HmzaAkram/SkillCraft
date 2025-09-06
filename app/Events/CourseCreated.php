@@ -8,8 +8,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CourseCreated
+class CourseCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -25,5 +26,10 @@ class CourseCreated
         return [
             new Channel('courses'),
         ];
+    }
+
+    public function broadcastAs(): string
+    {
+        return 'CourseCreated';
     }
 }

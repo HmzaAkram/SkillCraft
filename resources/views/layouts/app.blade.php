@@ -444,9 +444,10 @@
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('features') }}">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('courses.index') }}">Courses</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('notes.index') }}">Notes</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('how-it-works') }}">How It Works</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('pricing') }}">Pricing</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="{{ route('pricing') }}">Pricing</a></li> -->
                 </ul>
 
                 <!-- Auth Buttons -->
@@ -465,7 +466,7 @@
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('courses.index') }}">Courses</a></li>
+                                
                                 <li><a class="dropdown-item" href="{{ route('progress') }}">Progress</a></li>
                                 <li><a class="dropdown-item" href="{{ route('certifications.index') }}">Certifications</a></li>
                             </ul>
