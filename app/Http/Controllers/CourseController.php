@@ -37,7 +37,12 @@ class CourseController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'video' => 'nullable|file|mimes:mp4,mov,avi|max:102400', // 100MB max
         ]);
+
+        if ($request->hasFile('video')) {
+            $validated['video'] = $request->file('video')->store('videos', 'public');
+        }
 
         $course = Course::create($validated);
         event(new CourseCreated($course)); // Trigger real-time event
@@ -56,9 +61,19 @@ class CourseController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'video' => 'nullable|file|mimes:mp4,mov,avi|max:102400',
         ]);
 
         $course = Course::findOrFail($id);
+
+        if ($request->hasFile('video')) {
+            // Delete old video if exists
+            if ($course->video) {
+                Storage::disk('public')->delete($course->video);
+            }
+            $validated['video'] = $request->file('video')->store('videos', 'public');
+        }
+
         $course->update($validated);
 
         return redirect()->route('admin.courses.index')->with('success', 'Course updated successfully.');
@@ -67,6 +82,9 @@ class CourseController extends Controller
     public function destroy($id)
     {
         $course = Course::findOrFail($id);
+        if ($course->video) {
+            Storage::disk('public')->delete($course->video);
+        }
         $course->delete();
 
         return redirect()->route('admin.courses.index')->with('success', 'Course deleted successfully.');

@@ -56,8 +56,18 @@
                     </div>
                 @endforeach
             </div>
-        </div>
-    @endif
+
+            <!-- Course Video (Displayed after enrollment) -->
+            @if($course->video)
+                <div class="mt-5">
+                    <h2 class="mb-3">🎥 Course Video</h2>
+                    <video controls width="500" hight="500" class="shadow-sm">
+                        <source src="{{ asset('storage/' . $course->video) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            @endif
+        @endif
+    </div>
 </div>
 @endsection
-        
