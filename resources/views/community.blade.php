@@ -7,10 +7,6 @@
             <div class="hero-content fade-in-up">
                 <h1>Community Form</h1>
                 <p>Discuss, collaborate, and grow with fellow learners.</p>
-                <!-- <div class="hero-buttons">
-                    <a href="#get-started" class="cta-button">Start Learning Free</a>
-                    <a href="#demo" class="btn-secondary">Watch Demo</a>
-                </div> -->
             </div>
         </div>
     </section>               
@@ -46,13 +42,13 @@
                 </div>
             @endauth
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                 @forelse($posts as $post)
                     <div style="background-color: white; padding: 1.5rem; border-radius: 0.75rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; transition: box-shadow 0.3s;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                             <h3 style="font-size: 1.25rem; font-weight: semibold; color: #1F2937;">{{ $post->title }}</h3>
                             <span style="font-size: 0.75rem; font-weight: medium; padding: 0.25rem 0.75rem; border-radius: 9999px; 
-                                {{ $post->type == 'question' ? 'background-color: #DBEAFE; color: #1D4ED8;' : ($post->type == 'project' ? 'background-color: #D1FAE5; color: #047857;' : 'background-color: #EDE9FE; color: #6D28D9;') }}">
+                                {{ $post->type == 'question' ? 'background-color: #DBEAFE; color: #F97316;' : ($post->type == 'project' ? 'background-color: #D1FAE5; color: #047857;' : 'background-color: #EDE9FE; color: #6D28D9;') }}">
                                 {{ ucfirst($post->type) }}
                             </span>
                         </div>
@@ -84,8 +80,11 @@
                         @endauth
                     </div>
                 @empty
-                    <p style="text-align: center; color: #4B5563; grid-column: span 3;">🚀 No posts yet. Be the first to start the discussion!</p>
+                    <p style="text-align: center; color: #4B5563;">🚀 No posts yet. Be the first to start the discussion!</p>
                 @endforelse
+            </div>
+            <div style="margin-top: 2rem; display: flex; justify-content: center;">
+                {{ $posts->links() }}
             </div>
         </div>
     </section>

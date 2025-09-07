@@ -429,9 +429,17 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <!-- Logo -->
-            <a class="navbar-brand fw-bold text-danger" href="/">
-                SkillCrafter
-            </a>
+          <a class="navbar-brand fw-bold" href="/" 
+   style="font-size: 28px; 
+          font-weight: 700; 
+          color: #e63946; 
+          text-transform: uppercase; 
+          letter-spacing: 2px; 
+          text-shadow: 2px 2px 6px rgba(0,0,0,0.2); 
+          transition: all 0.3s ease;">
+    SkillCrafter
+</a>
+
 
             <!-- Mobile Toggle -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
