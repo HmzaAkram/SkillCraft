@@ -9,7 +9,7 @@ class Course extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'video']; // Include 'video' if added
+    protected $fillable = ['name', 'description', 'video'];
 
     public function users()
     {
@@ -29,5 +29,10 @@ class Course extends Model
     public function certifications()
     {
         return $this->hasMany(Certification::class);
+    }
+
+    public function mcqs()
+    {
+        return $this->hasMany(Mcq::class);
     }
 }

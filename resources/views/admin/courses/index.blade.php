@@ -33,6 +33,7 @@
               @csrf @method('DELETE')
               <button class="btn btn-sm btn-outline-danger">Delete</button>
             </form>
+            <a href="{{ route('admin.mcqs.index', $course->id) }}" class="btn btn-sm btn-outline-info">Manage MCQs</a>
           </td>
         </tr>
         @empty

@@ -17,9 +17,9 @@ use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\CertificationController;
 
 /*
-|--------------------------------------------------------------------------
+|-------------------------------------------------------------------------
 | Web Routes
-|--------------------------------------------------------------------------
+|-------------------------------------------------------------------------
 */
 
 // Public Routes
@@ -71,6 +71,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
     Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
     Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
+    Route::get('/courses/{id}/mcq-test', [CourseController::class, 'showMcqTest'])->name('courses.mcq.test');
+    Route::post('/courses/{id}/submit-mcq', [CourseController::class, 'submitMcq'])->name('courses.mcq.submit');
 });
 
 // Admin Routes
@@ -85,11 +87,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/notes/{note}/edit', [AdminNoteController::class, 'edit'])->name('admin.notes.edit');
     Route::put('/notes/{note}', [AdminNoteController::class, 'update'])->name('admin.notes.update');
     Route::delete('/notes/{note}', [AdminNoteController::class, 'destroy'])->name('admin.notes.destroy');
-    // New Admin Course Routes
     Route::get('/courses', [CourseController::class, 'adminIndex'])->name('admin.courses.index');
     Route::get('/courses/create', [CourseController::class, 'create'])->name('admin.courses.create');
     Route::post('/courses', [CourseController::class, 'store'])->name('admin.courses.store');
     Route::get('/courses/{id}/edit', [CourseController::class, 'edit'])->name('admin.courses.edit');
     Route::put('/courses/{id}', [CourseController::class, 'update'])->name('admin.courses.update');
     Route::delete('/courses/{id}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
+    Route::get('/courses/{course}/mcqs', [CourseController::class, 'adminMcqsIndex'])->name('admin.mcqs.index');
+    Route::get('/courses/{course}/mcqs/create', [CourseController::class, 'adminMcqCreate'])->name('admin.mcqs.create');
+    Route::post('/courses/{course}/mcqs', [CourseController::class, 'adminMcqStore'])->name('admin.mcqs.store');
+    Route::get('/courses/{course}/mcqs/{mcq}/edit', [CourseController::class, 'adminMcqEdit'])->name('admin.mcqs.edit');
+    Route::put('/courses/{course}/mcqs/{mcq}', [CourseController::class, 'adminMcqUpdate'])->name('admin.mcqs.update');
+    Route::delete('/courses/{course}/mcqs/{mcq}', [CourseController::class, 'adminMcqDestroy'])->name('admin.mcqs.destroy');
 });

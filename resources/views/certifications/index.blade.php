@@ -17,9 +17,12 @@
             <div class="card-body d-flex flex-column justify-content-between">
               <h5 class="card-title">{{ $cert->course->name }}</h5>
               <p class="text-muted small mb-3">Certified on {{ $cert->created_at->format('M d, Y') }}</p>
+              
+              <!-- Consistent theme button -->
               <a href="{{ route('certifications.download', $cert->id) }}" 
-                 class="btn btn-primary mt-auto">
-                <i class="bi bi-download"></i> Download Certificate
+                 class="cta-button mt-auto" 
+                 style="font-size: 1rem; padding: 0.75rem 1.5rem; display:inline-block;">
+                 ⬇️ Download Certificate
               </a>
             </div>
           </div>
@@ -33,4 +36,3 @@
   </div>
 </section>
 @endsection
-    
