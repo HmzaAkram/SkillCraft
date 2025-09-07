@@ -15,7 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\CertificationController;
-
+use App\Http\Controllers\CommunityController;
 /*
 |-------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +23,7 @@ use App\Http\Controllers\CertificationController;
 */
 
 // Public Routes
+Route::get('/community', [CommunityController::class, 'index'])->name('community');
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -73,6 +74,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
     Route::get('/courses/{id}/mcq-test', [CourseController::class, 'showMcqTest'])->name('courses.mcq.test');
     Route::post('/courses/{id}/submit-mcq', [CourseController::class, 'submitMcq'])->name('courses.mcq.submit');
+    Route::post('/community/post', [CommunityController::class, 'storePost'])->name('community.post.store');
+Route::post('/community/comment/{postId}', [CommunityController::class, 'storeComment'])->name('community.comment.store');
 });
 
 // Admin Routes

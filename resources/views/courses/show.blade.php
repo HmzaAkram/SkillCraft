@@ -9,7 +9,7 @@
             <p class="text-muted">{{ $course->description }}</p>
 
             <!-- Progress Bar -->
-            <div class="progress my-4" style="height: 22px; max-width: 500px; margin: auto;">
+            <!-- <div class="progress my-4" style="height: 22px; max-width: 500px; margin: auto;">
                 <div class="progress-bar bg-success fw-bold" role="progressbar"
                     style="width: {{ $progressPercentage }}%;" 
                     aria-valuenow="{{ $progressPercentage }}" 
@@ -17,7 +17,7 @@
                     aria-valuemax="100">
                     {{ $progressPercentage }}%
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
