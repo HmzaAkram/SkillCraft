@@ -16,6 +16,11 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\CertificationController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\ContactController; // For frontend contact form
+use App\Http\Controllers\Admin\ContactController as AdminContactController; // For admin panel
+
+
 /*
 |-------------------------------------------------------------------------
 | Web Routes
@@ -58,8 +63,10 @@ Auth::routes();
 // User Panel Routes (Authenticated)
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+ Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
     Route::post('/courses/{id}/enroll', [CourseController::class, 'enroll'])->name('courses.enroll');
@@ -102,4 +109,23 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/courses/{course}/mcqs/{mcq}/edit', [CourseController::class, 'adminMcqEdit'])->name('admin.mcqs.edit');
     Route::put('/courses/{course}/mcqs/{mcq}', [CourseController::class, 'adminMcqUpdate'])->name('admin.mcqs.update');
     Route::delete('/courses/{course}/mcqs/{mcq}', [CourseController::class, 'adminMcqDestroy'])->name('admin.mcqs.destroy');
+});// Public Blog Routes
+Route::get('/blogs', [App\Http\Controllers\BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/{blog}', [App\Http\Controllers\BlogController::class, 'show'])->name('blogs.show');
+
+// Admin Blog Routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/blogs', [App\Http\Controllers\Admin\BlogController::class, 'index'])->name('admin.blogs.index');
+    Route::get('/blogs/create', [App\Http\Controllers\Admin\BlogController::class, 'create'])->name('admin.blogs.create');
+    Route::post('/blogs', [App\Http\Controllers\Admin\BlogController::class, 'store'])->name('admin.blogs.store');
+});
+Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(function () {
+    Route::resource('blogs', BlogController::class);
+});
+// Contact form submit (Frontend)
+Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
+
+// Admin - Manage contacts
+Route::prefix('admin')->name('admin.')->middleware(['auth','admin'])->group(function () {
+    Route::resource('contacts', AdminContactController::class)->only(['index', 'destroy']);
 });

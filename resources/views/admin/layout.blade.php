@@ -33,13 +33,29 @@
     </div>
   </div>
 
-  <div class="sidebar">
-    <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
-    <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}"><i class="bi bi-people me-2"></i> Users</a>
-    <a href="{{ route('admin.notes.index') }}" class="{{ request()->routeIs('admin.notes.*') ? 'active' : '' }}"><i class="bi bi-journal-text me-2"></i> Notes</a>
-    <a href="{{ route('admin.courses.index') }}" class="{{ request()->routeIs('admin.courses.*') ? 'active' : '' }}"><i class="bi bi-book me-2"></i> Courses</a>
-    <a href="{{ route('home') }}"><i class="bi bi-house me-2"></i> Back to Site</a>
-  </div>
+<div class="sidebar">
+    <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+    </a>
+    <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+        <i class="bi bi-people-fill me-2"></i> Users
+    </a>
+    <a href="{{ route('admin.notes.index') }}" class="{{ request()->routeIs('admin.notes.*') ? 'active' : '' }}">
+        <i class="bi bi-journal-bookmark-fill me-2"></i> Notes
+    </a>
+    <a href="{{ route('admin.courses.index') }}" class="{{ request()->routeIs('admin.courses.*') ? 'active' : '' }}">
+        <i class="bi bi-mortarboard-fill me-2"></i> Courses
+    </a>
+    <a href="{{ route('admin.blogs.index') }}" class="{{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
+        <i class="bi bi-file-earmark-text-fill me-2"></i> Blogs
+    </a>
+    <a href="{{ route('admin.contacts.index') }}" class="{{ request()->routeIs('admin.contacts.*') ? 'active' : '' }}">
+        <i class="bi bi-envelope-fill me-2"></i> Emails
+    </a>
+    <a href="{{ route('home') }}">
+        <i class="bi bi-house-door-fill me-2"></i> Back to Site
+    </a>
+</div>
 
   <main class="content" style="padding-top: 80px;">
     @if(session('success'))

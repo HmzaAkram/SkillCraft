@@ -474,7 +474,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow">
                                 <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a></li>
                                 
                                 <!-- <li><a class="dropdown-item" href="{{ route('progress') }}">Progress</a></li> -->
                                 <li><a class="dropdown-item" href="{{ route('certifications.index') }}">Certifications</a></li>
@@ -506,45 +506,104 @@
     {{-- Light/Dark Toggle Script --}}
    <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>SkillCrafter</h3>
-                    <p>Empowering learners worldwide with AI-powered skill development.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Product</h3>
-                    <ul>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#integrations">Integrations</a></li>
-                        <li><a href="#api">API</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#careers">Careers</a></li>
-                        <li><a href="#blog">Blog</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <!-- <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#help">Help Center</a></li>
-                        <li><a href="#community">Community</a></li>
-                        <li><a href="#tutorials">Tutorials</a></li>
-                        <li><a href="#status">Status</a></li>
-                    </ul>
-                </div> -->
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SkillCrafter</h3>
+                <p>Empowering learners worldwide with AI-powered skill development.</p>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 SkillCrafter. All rights reserved. | <a href="#privacy" style="color: #9ca3af;">Privacy Policy</a> | <a href="#terms" style="color: #9ca3af;">Terms of Service</a></p>
+            <div class="footer-section">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#integrations">Integrations</a></li>
+                    <li><a href="#api">API</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="{{ route('about') }}">About Us</a></li>
+                    <li><a href="#careers">Careers</a></li>
+                    <li><a href="{{ route('blogs.index') }}">Blog</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a></li>
+
+                </ul>
             </div>
         </div>
-    </footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SkillCrafter. All rights reserved. | 
+            <a href="#privacy" style="color: #9ca3af;">Privacy Policy</a> | 
+            <a href="#terms" style="color: #9ca3af;">Terms of Service</a></p>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow-lg">
+      <div class="modal-header" style="background: linear-gradient(135deg, #e11d48, #f59e0b); color: white;">
+        <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{{ route('contact.store') }}">
+        @csrf
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Subject</label>
+            <input type="text" name="subject" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Message</label>
+            <textarea name="message" class="form-control" rows="4" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn text-white" style="background: linear-gradient(135deg, #e11d48, #f59e0b);">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow-lg">
+      <div class="modal-header" style="background: linear-gradient(135deg, #e11d48, #f59e0b); color: white;">
+        <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="{{ route('contact.store') }}">
+        @csrf
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Subject</label>
+            <input type="text" name="subject" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Message</label>
+            <textarea name="message" class="form-control" rows="4" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn text-white" style="background: linear-gradient(135deg, #e11d48, #f59e0b);">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</footer>
+
 
     <script>
         // Smooth scrolling for navigation links
