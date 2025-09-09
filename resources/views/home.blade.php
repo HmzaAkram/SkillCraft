@@ -29,7 +29,7 @@
                 <h1>Master Any Skill with AI‑Powered Learning</h1>
                 <p>Personalized learning paths, adaptive exercises, and real-time feedback to accelerate your skill development journey.</p>
                 <div class="hero-buttons">
-                    <a href="#get-started" class="cta-button">Start Learning Free</a>
+                    <a href="{{ route('courses.index') }}" class="cta-button">Start Learning Free</a>
                     <a href="#demo" class="btn-secondary">Watch Demo</a>
                 </div>
             </div>
@@ -116,7 +116,7 @@
             <div class="animate-on-scroll">
                 <h2>Ready to Transform Your Learning?</h2>
                 <p>Join thousands of learners who are already mastering new skills with SkillCrafter's AI-powered platform.</p>
-                <a href="#signup" class="cta-button" style="font-size: 1.125rem; padding: 1rem 2rem;">Start Your Free Trial</a>
+                <a href="{{ route('courses.index') }}" class="cta-button" style="font-size: 1.125rem; padding: 1rem 2rem;">Start Your Free Trial</a>
             </div>
         </div>
     </section>
