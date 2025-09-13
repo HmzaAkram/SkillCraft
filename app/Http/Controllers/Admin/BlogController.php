@@ -33,6 +33,7 @@ class BlogController extends Controller
             'title'   => $request->title,
             'content' => $request->content,
             'image'   => $path,
+            'user_id' => auth()->id(),  // Add this line
         ]);
 
         return redirect()->route('admin.blogs.index')->with('success', 'Blog created successfully.');

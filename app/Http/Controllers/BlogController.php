@@ -13,6 +13,7 @@ class BlogController extends Controller
 
     public function show(Blog $blog)
     {
-        return view('blogs.show', compact('blog'));
+        $user = $blog->author;  // Load the author via the relationship
+        return view('blogs.show', compact('blog', 'user'));
     }
 }
