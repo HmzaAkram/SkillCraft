@@ -74,8 +74,7 @@ Route::middleware(['auth' , 'verified'])->group(function () {
     Route::get('/progress', [ProgressController::class, 'index'])->name('progress');
     Route::get('/certifications', [CertificationController::class, 'index'])->name('certifications.index');
     Route::get('/certifications/{id}/download', [CertificationController::class, 'download'])->name('certifications.download');
-    Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot');
-    Route::post('/chatbot/message', [ChatbotController::class, 'message'])->name('chatbot.message');
+    
     Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
     Route::get('/notes/create', [NoteController::class, 'create'])->name('notes.create');
     Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
