@@ -58,10 +58,10 @@ Route::post('/ai/recommend', [AIController::class, 'recommend'])->name('ai.recom
 Route::get('/roadmap/{id}', [RoadmapController::class, 'show'])->name('roadmap.show');
 
 // Auth Routes
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 // User Panel Routes (Authenticated)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth' , 'verified'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
  Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
