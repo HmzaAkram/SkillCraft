@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class ChatbotController extends Controller
 {
     /**
-     * Handle incoming chatbot messages and return AI response using Hugging Face API.
+     * Handle incoming chatbot messages and return AI response using Google Gemini 2.0 Flash.
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -25,56 +26,117 @@ class ChatbotController extends Controller
         // Retrieve or initialize conversation history from session
         $history = Session::get('chat_history', []);
 
-        // System prompt to define the persona (matching the image's style)
-        $systemPrompt = "You are TalkToText Pro assistant, a helpful AI for meeting productivity. You can help users understand our features, answer questions about meeting transcriptions, or summarize meeting content. Respond professionally, concisely, and helpfully. Always end by asking how else you can assist.";
+        // System prompt to define the persona
+        $systemPrompt = "You are SkillCrafter AI assistant, a helpful AI for personalized learning and skill development. You can help users understand our features, answer questions about skill building, course recommendations, learning paths, progress tracking, and provide general learning guidance. Respond professionally, concisely, and helpfully. Keep responses under 150 words. Always end by asking how else you can assist with their learning journey.";
 
-        // Format history for the model (Mistral-Instruct uses [INST] for system/user, [/INST] for assistant)
-        $formattedHistory = "[INST] $systemPrompt [/INST]\n";
-        foreach ($history as $entry) {
-            $formattedHistory .= "[INST] {$entry['user']} [/INST] {$entry['assistant']}\n";
+        try {
+            // Build conversation context for Gemini
+            $messages = [];
+            
+            // Add system message
+            $messages[] = [
+                'role' => 'user',
+                'parts' => [['text' => $systemPrompt]]
+            ];
+            $messages[] = [
+                'role' => 'model',
+                'parts' => [['text' => 'I understand. I am SkillCrafter AI assistant, ready to help with learning and skill development.']]
+            ];
+
+            // Add conversation history
+            foreach ($history as $entry) {
+                $messages[] = [
+                    'role' => 'user',
+                    'parts' => [['text' => $entry['user']]]
+                ];
+                $messages[] = [
+                    'role' => 'model',
+                    'parts' => [['text' => $entry['assistant']]]
+                ];
+            }
+
+            // Add current user message
+            $messages[] = [
+                'role' => 'user',
+                'parts' => [['text' => $userMessage]]
+            ];
+
+            // Make API call to Gemini
+            $apiKey = env('GEMINI_API_KEY');
+            $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key={$apiKey}";
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post($apiUrl, [
+                'contents' => $messages,
+                'generationConfig' => [
+                    'temperature' => 0.7,
+                    'topK' => 40,
+                    'topP' => 0.95,
+                    'maxOutputTokens' => 200,
+                    'stopSequences' => []
+                ],
+                'safetySettings' => [
+                    [
+                        'category' => 'HARM_CATEGORY_HARASSMENT',
+                        'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'
+                    ],
+                    [
+                        'category' => 'HARM_CATEGORY_HATE_SPEECH',
+                        'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'
+                    ],
+                    [
+                        'category' => 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+                        'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'
+                    ],
+                    [
+                        'category' => 'HARM_CATEGORY_DANGEROUS_CONTENT',
+                        'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'
+                    ]
+                ]
+            ]);
+
+            if ($response->successful()) {
+                $responseData = $response->json();
+                
+                if (isset($responseData['candidates'][0]['content']['parts'][0]['text'])) {
+                    $aiResponse = $responseData['candidates'][0]['content']['parts'][0]['text'];
+                } else {
+                    $aiResponse = 'I apologize, but I encountered an issue generating a response. How can I help you with your learning goals?';
+                }
+            } else {
+                // Log the error for debugging
+                Log::error('Gemini API Error: ' . $response->body());
+                $aiResponse = 'I\'m having trouble connecting to my knowledge base right now. Please try again in a moment, or feel free to explore our platform features!';
+            }
+
+        } catch (\Exception $e) {
+            // Log the exception
+            Log::error('Chatbot Exception: ' . $e->getMessage());
+            $aiResponse = 'I encountered an unexpected error. Please try again, and I\'ll do my best to help you with your learning journey!';
         }
-        $formattedInput = $formattedHistory . "[INST] $userMessage [/INST]";
 
-        // Detect if this is a summarization request (e.g., for meeting transcripts)
-        if (stripos($userMessage, 'summarize') !== false || stripos($userMessage, 'meeting') !== false || stripos($userMessage, 'transcript') !== false) {
-            // Use a specialized summarization model for better results
-            $apiUrl = 'https://api-inference.huggingface.co/models/knkarthick/MEETING_SUMMARY'; // Fine-tuned for meetings
-            $inputs = $userMessage; // For summarization, pass raw text to summarize
-        } else {
-            // Use conversational model
-            $apiUrl = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3';
-            $inputs = $formattedInput;
-        }
-
-        $apiKey = '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'; // Your API key
-
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $apiKey,
-            'Content-Type' => 'application/json',
-        ])->post($apiUrl, [
-            'inputs' => $inputs,
-            'parameters' => [
-                'max_length' => 300, // Increased for better summaries
-                'num_return_sequences' => 1,
-                'temperature' => 0.7, // For natural responses
-            ],
-        ]);
-
-        if ($response->successful()) {
-            $aiResponse = $response->json()[0]['generated_text'] ?? 'Sorry, I couldn\'t generate a response.';
-            // Clean up the response (remove prompt echo if present)
-            $aiResponse = trim(str_replace($formattedInput, '', $aiResponse));
-        } else {
-            $aiResponse = 'Sorry, there was an issue with the AI service. Please try again later.';
-        }
-
-        // Update history
+        // Update history (keep only last 10 exchanges to manage memory)
         $history[] = ['user' => $userMessage, 'assistant' => $aiResponse];
+        if (count($history) > 10) {
+            $history = array_slice($history, -10);
+        }
         Session::put('chat_history', $history);
 
         return response()->json([
             'text' => $aiResponse,
             'time' => now()->format('H:i'),
         ]);
+    }
+
+    /**
+     * Clear chat history
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function clearHistory()
+    {
+        Session::forget('chat_history');
+        return response()->json(['message' => 'Chat history cleared']);
     }
 }
