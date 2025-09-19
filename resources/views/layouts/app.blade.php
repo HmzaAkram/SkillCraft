@@ -8,8 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
     <style>
         * {
             margin: 0;
@@ -40,10 +38,6 @@
             transition: box-shadow 0.3s ease;
         }
 
-        header.scrolled {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-        }
-
         nav {
             display: flex;
             justify-content: space-between;
@@ -58,34 +52,11 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: color 0.3s ease;
+            text-decoration: none;
         }
 
         .navbar-brand:hover {
             color: #c53030;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #4a5568;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: color 0.3s ease, transform 0.2s ease;
-        }
-
-        .nav-links a:hover {
-            color: #e63946;
-            transform: translateY(-2px);
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
         }
 
         .cta-button {
@@ -103,68 +74,7 @@
         .cta-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 24px rgba(230, 57, 70, 0.25);
-        }
-
-        .navbar-toggler {
-            border: none;
-            padding: 0.5rem;
-        }
-
-        .navbar-toggler-icon {
-            width: 25px;
-            height: 3px;
-            background: #4a5568;
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #fed7aa 0%, #fef3c7 50%, #f6ad55 100%);
-            padding: 80px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Ccircle cx='40' cy='40' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 6vw, 4rem);
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            color: #1a202c;
-            line-height: 1.3;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .hero p {
-            font-size: clamp(1.25rem, 3vw, 1.5rem);
-            margin-bottom: 2rem;
-            color: #4b5563;
-            max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
+            color: #fff;
         }
 
         .btn-secondary {
@@ -185,8 +95,59 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
+        .hero {
+            background: linear-gradient(135deg, #fed7aa 0%, #fef3c7 50%, #f6ad55 100%);
+            padding: 120px 0 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Ccircle cx='40' cy='40' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: #1a202c;
+            line-height: 1.3;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero p {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            margin-bottom: 2rem;
+            color: #4b5563;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
         .features {
-            padding: 60px 0;
+            padding: 80px 0;
             background: #f1f5f9;
         }
 
@@ -254,272 +215,8 @@
             line-height: 1.7;
         }
 
-        .how-it-works {
-            padding: 60px 0;
-            background: #ffffff;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .step {
-            text-align: center;
-            position: relative;
-        }
-
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #e63946, #f6ad55);
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.25rem;
-            margin: 0 auto 1.5rem;
-        }
-
-        .step h3 {
-            font-size: clamp(1.25rem, 2vw, 1.5rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #1a202c;
-        }
-
-        .step p {
-            color: #718096;
-            line-height: 1.7;
-        }
-
-        .cta-section {
-            background: linear-gradient(135deg, #2d3748, #4a5568);
-            color: #ffffff;
-            padding: 60px 0;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        footer {
-            background: #1a202c;
-            color: #e2e8f0;
-            padding: 3rem 0 1.5rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-section ul li a {
-            color: #a0aec0;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section ul li a:hover {
-            color: #e63946;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #4a5568;
-            padding-top: 1.5rem;
-            text-align: center;
-            color: #a0aec0;
-            font-size: 0.85rem;
-        }
-
+        /* FIXED CHATBOT STYLES */
         .chatbot-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #e63946, #f6ad55);
-            box-shadow: 0 6px 15px rgba(230, 57, 70, 0.3);
-            border-radius: 50%;
-            z-index: 1050;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .chatbot-toggle:hover {
-            transform: scale(1.1);
-        }
-
-        .chatbot-panel {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            width: 90%;
-            max-width: 400px;
-            max-height: 70vh;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            background: #ffffff;
-            overflow: hidden;
-            z-index: 1050;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .chatbot-panel.hidden {
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-        }
-
-        .chatbot-header {
-            background: linear-gradient(135deg, #e63946, #f6ad55);
-            color: #fff;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chatbot-messages {
-            max-height: 60vh;
-            background: #f7fafc;
-            overflow-y: auto;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .chat-message {
-            background: #ffffff;
-            border-radius: 10px;
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            font-size: 0.95rem;
-            max-width: 80%;
-            align-self: flex-start;
-        }
-
-        .chat-message.user {
-            align-self: flex-end;
-            background: linear-gradient(135deg, #e63946, #f6ad55);
-            color: #fff;
-        }
-
-        .chatbot-input {
-            display: flex;
-            padding: 1rem;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .chatbot-input input {
-            border-radius: 50px;
-            border: 1px solid #e2e8f0;
-            flex-grow: 1;
-            margin-right: 0.5rem;
-            padding: 0.5rem 1rem;
-        }
-
-        .chatbot-input button {
-            background: linear-gradient(135deg, #e63946, #f6ad55);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            transition: transform 0.3s ease;
-        }
-
-        .chatbot-input button:hover {
-            transform: scale(1.05);
-        }
-
-        .modal-content {
-            border-radius: 15px;
-            border: none;
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, #e63946, #f6ad55);
-            color: #fff;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-        }
-
-        .modal-body input,
-        .modal-body textarea {
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-            transition: border-color 0.3s ease;
-        }
-
-        .modal-body input:focus,
-        .modal-body textarea:focus {
-            border-color: #e63946;
-            box-shadow: 0 0 8px rgba(230, 57, 70, 0.2);
-        }
-
-        @media (max-width: 576px) {
-            .navbar-brand {
-                font-size: 1.5rem;
-            }
-            .nav-links a {
-                font-size: 1rem;
-            }
-            .hero {
-                padding: 40px 0;
-            }
-            .hero h1 {
-                font-size: clamp(1.5rem, 5vw, 2.5rem);
-            }
-            .hero p {
-                font-size: clamp(1rem, 2.5vw, 1.25rem);
-            }
-            .cta-button, .btn-secondary {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-            }
-            .features, .how-it-works, .cta-section {
-                padding: 40px 0;
-            }
-            .section-header h2 {
-                font-size: clamp(1.5rem, 3vw, 2rem);
-            }
-         .chatbot-toggle {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -922,8 +619,8 @@
         </div>
     </footer>
 
-    <!-- Chatbot Toggle Button -->
-      <button class="chatbot-toggle" onclick="toggleChat()">
+  <!-- CHATBOT -->
+    <button class="chatbot-toggle" onclick="toggleChat()">
         <i class="bi bi-chat-dots-fill"></i>
     </button>
 
@@ -961,85 +658,118 @@
         </div>
     </div>
 
-
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+        let isTyping = false;
+        let chatOpen = false;
+
+        // Initialize chat
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('initialTime').textContent = getCurrentTime();
         });
 
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-                header.style.backdropFilter = 'blur(10px)';
+        function toggleChat() {
+            const panel = document.getElementById('chatPanel');
+            chatOpen = !chatOpen;
+            
+            if (chatOpen) {
+                panel.classList.add('show');
+                setTimeout(() => document.getElementById('messageInput').focus(), 300);
             } else {
-                header.style.background = '#fff';
-                style.backdropFilter = 'none';
+                panel.classList.remove('show');
             }
-        });
-
-        // Scroll animations
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
-                }
-            });
-        }, observerOptions);
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-
-        // Chatbot message sending
-        function sendMessage() {
-            if (!this.newMessage.trim()) return;
-
-            // Add user message
-            this.messages.push({ text: this.newMessage, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), isUser: true });
-            const userMessage = this.newMessage;
-            this.newMessage = '';
-
-            // Send to backend
-            fetch('/chatbot/handle', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                body: JSON.stringify({ message: userMessage })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.text) {
-                    this.messages.push({ text: data.text, time: data.time });
-                } else {
-                    this.messages.push({ text: 'Sorry, no response from server.', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
-                }
-            })
-            .catch(error => {
-                this.messages.push({ text: 'Error: Could not connect to server.', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
-            })
-            .finally(() => {
-                this.$nextTick(() => {
-                    const messagesEl = this.$refs.messages;
-                    messagesEl.scrollTop = messagesEl.scrollHeight;
-                });
-            });
         }
 
-        // Interactive hover effects
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-10px) scale(1.02)');
-            card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0) scale(1)');
-        });
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        }
 
-        // CTA button tracking
-        document.querySelectorAll('.cta-button').forEach(button => {
-            button.addEventListener('click', (e) => console.log('CTA clicked:', e.target.textContent));
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message || isTyping) return;
+
+            // Add user message
+            addMessage(message, true);
+            
+            // Clear input
+            input.value = '';
+            
+            // Show typing indicator
+            showTyping();
+            
+            // Simulate AI response
+            setTimeout(() => {
+                hideTyping();
+                const responses = [
+                    "That's a great question! SkillCrafter uses advanced AI to create personalized learning paths tailored to your goals and learning style.",
+                    "I'd be happy to help! Our platform offers interactive exercises, real-time feedback, and progress tracking to ensure effective learning.",
+                    "Absolutely! With SkillCrafter, you can master any skill through our adaptive learning system that adjusts to your pace and preferences.",
+                    "Great to hear from you! Our AI-powered approach makes skill development more engaging and efficient than traditional methods.",
+                    "Thanks for your interest! SkillCrafter combines cutting-edge technology with proven learning methodologies to help you achieve your goals.",
+                    "I'm here to help with any questions about SkillCrafter! Whether it's about features, pricing, or how to get started, just ask!"
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, false);
+            }, 1000 + Math.random() * 1500);
+        }
+
+        function addMessage(text, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            messageDiv.innerHTML = `
+                <div>${text}</div>
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            isTyping = true;
+            document.getElementById('sendBtn').disabled = true;
+            
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTyping() {
+            isTyping = false;
+            document.getElementById('sendBtn').disabled = false;
+            
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Close chat on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && chatOpen) {
+                toggleChat();
+            }
         });
     </script>
 </body>
